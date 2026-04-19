@@ -1,76 +1,116 @@
-# LLM Backend Framework
+# Agnette
 
-A lightweight Python framework inspired by FastAPI route decorators, but designed for **LLM-as-a-backend**.
+The FIRST LLM-as-a-backend framework.
 
-When a route is hit, the framework:
-1. Builds a prompt that includes route metadata and request context.
-2. Runs a Claude agent through `claude-agent-sdk`.
-3. Returns plain text as the HTTP response.
-4. Appends an invocation record to a local JSONL file (no database required).
+Agnette is a lightweight ASGI framework built on Starlette where route and middleware logic is driven by LLM prompts.
+
+## Runtime Support
+
+This project is intended to run with `uvicorn` only for now.
 
 ## Install
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"
-```
-
-Set your Anthropic credentials:
-
-```bash
-export ANTHROPIC_API_KEY=your-api-key
+pip install -e .
 ```
 
 ## Quick Start
 
 ```python
-from llm_backend_framework import LLMApp
+from agnos import AgentOptions
+from agnette import Agnette
 
-framework = LLMApp()
+app = Agnette(
+    default_agent_options=AgentOptions(
+        model="claude-sonnet-4-5",
+        allowed_tools=["Read", "Write", "Edit", "Glob", "Grep", "WebFetch"],
+    )
+)
 
-@framework.route("/hello", methods=["POST"], prompt="Reply with a short greeting.")
+@app.post("/hello", prompt="Reply with a short greeting.")
 def hello() -> None:
     pass
-
-app = framework.to_starlette()
 ```
 
 Run:
 
 ```bash
-uvicorn examples.basic_app:app --reload
+uvicorn examples.notes_app:app --reload
 ```
 
-## Request Handling Behavior
+## How It Works
 
-- Route prompt is defined at declaration time via `@framework.route(..., prompt="...")`.
-- Each incoming request contributes context:
-  - path, method
-  - path/query params
-  - JSON body or raw body text
-- Final prompt is sent to Claude through `ClaudeAgentRunner`.
-- Response body is plain text (`text/plain`).
+For each route request, Agnette:
 
-## File-Based Persistence
+1. Collects request context (`path`, `method`, `path_params`, `query_params`, `headers`, and body as `json_body` or `raw_body`).
+2. Composes a final prompt with route metadata and your route prompt.
+3. Executes the agent via `agnos.query(...)`.
+4. Returns the model output as `text/plain`.
 
-All invocations are recorded in:
+If execution fails, the route returns `500` with `Agent execution failed: ...`.
 
-- `data/invocations.jsonl`
+## Routing API
 
-Each line contains:
+Use decorators on an `Agnette` app instance:
 
-- timestamp
-- route path
-- HTTP method
-- composed prompt
-- request context
-- response text or error
+- `@app.route(path, prompt=..., methods=[...])`
+- `@app.get(...)`
+- `@app.post(...)`
+- `@app.put(...)`
+- `@app.patch(...)`
+- `@app.delete(...)`
+- `@app.options(...)`
+- `@app.head(...)`
 
-This keeps the initial framework simple and satisfies the requirement to use files rather than a database.
+Each route can override `agent_options`; otherwise it uses `default_agent_options`.
 
-## Testing
+## Prompt Middleware
+
+Agnette supports HTTP middleware through:
+
+```python
+@app.middleware("http", prompt="...")
+def my_middleware() -> None:
+    pass
+```
+
+Middleware prompt output must be JSON with:
+
+- `allow` (required boolean)
+- `status_code` (optional integer, default `403`)
+- `response_text` (optional string)
+
+If `allow` is `false`, the request is blocked with a plain-text response.
+
+## Included Examples
+
+### Notes CRUD (file-backed)
+
+`examples/notes_app.py` demonstrates prompt-driven CRUD using `data/notes.json`.
+
+Run:
 
 ```bash
-pytest
+uvicorn examples.notes_app:app --reload
 ```
+
+### Auth + Protected Route (file-backed tokens)
+
+`examples/auth_app.py` demonstrates:
+
+- public `/health`
+- public `/auth/sign-in` that mints/stores bearer tokens in `data/issued_tokens.json`
+- protected `/private/echo` enforced by prompt-driven HTTP middleware
+
+Run:
+
+```bash
+uvicorn examples.auth_app:app --reload
+```
+
+## Cost Logging
+
+- Each completed agent run logs its cost.
+- Agnette also logs total accumulated cost on app shutdown.

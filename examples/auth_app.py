@@ -11,6 +11,7 @@ Run (from repo root):
 Try:
   curl -sS http://127.0.0.1:8000/health
   curl -sS -X POST http://127.0.0.1:8000/auth/sign-in -H 'Content-Type: application/json' -d '{}'
+
   # Copy access_token from the JSON response, then:
   curl -sS -X POST http://127.0.0.1:8000/private/echo \\
     -H "Authorization: Bearer <paste-token>" \\
