@@ -18,7 +18,7 @@ Try:
 
   curl -sS -X DELETE http://127.0.0.1:8000/notes/note-1
 """
-from agnos import AgentOptions
+from glyph import AgentOptions
 from agnette import Agnette
 
 app = Agnette(

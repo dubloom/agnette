@@ -1,6 +1,6 @@
 import logging
 
-from agnos import AgentOptions, AgentQueryCompleted, query
+from glyph import AgentOptions, AgentQueryCompleted, query
 
 # Same logger uvicorn configures (handlers + colors). Starlette does not attach log handlers.
 logger = logging.getLogger("uvicorn.error")

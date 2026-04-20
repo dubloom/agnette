@@ -2,6 +2,8 @@
 
 The FIRST LLM-as-a-backend framework.
 
+Powered by [`glyph-agents`](https://github.com/dubloom/glyph-agents).
+
 Agnette is a lightweight ASGI framework built on Starlette where route and middleware logic is driven by LLM prompts.
 
 ## Runtime Support
@@ -19,7 +21,7 @@ pip install -e .
 ## Quick Start
 
 ```python
-from agnos import AgentOptions
+from glyph import AgentOptions
 from agnette import Agnette
 
 app = Agnette(
@@ -46,7 +48,7 @@ For each route request, Agnette:
 
 1. Collects request context (`path`, `method`, `path_params`, `query_params`, `headers`, and body as `json_body` or `raw_body`).
 2. Composes a final prompt with route metadata and your route prompt.
-3. Executes the agent via `agnos.query(...)`.
+3. Executes the agent via `glyph.query(...)`.
 4. Returns the model output as `text/plain`.
 
 If execution fails, the route returns `500` with `Agent execution failed: ...`.

@@ -5,7 +5,7 @@ import logging
 from contextlib import asynccontextmanager
 from typing import Any, Callable
 
-from agnos import AgentOptions
+from glyph import AgentOptions
 from starlette.applications import Starlette
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request

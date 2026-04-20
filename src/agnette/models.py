@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from agnos import AgentOptions
+from glyph import AgentOptions
 
 
 @dataclass(slots=True)

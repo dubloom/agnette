@@ -32,9 +32,7 @@ This is what a LLM has to say on this app:
   +----------------------------------------------------------------------------------------------------------------------+
 """
 
-from __future__ import annotations
-
-from agnos import AgentOptions
+from glyph import AgentOptions
 
 from agnette import Agnette
 
