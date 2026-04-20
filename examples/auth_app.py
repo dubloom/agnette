@@ -32,9 +32,7 @@ This is what a LLM has to say on this app:
   +----------------------------------------------------------------------------------------------------------------------+
 """
 
-from glyph import AgentOptions
-
-from agnette import Agnette
+from agnette import Agnette, AgentOptions
 
 # Relative to process working directory (run uvicorn from repo root).
 _ISSUED_TOKENS_FILE = "data/issued_tokens.json"

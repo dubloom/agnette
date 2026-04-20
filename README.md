@@ -61,6 +61,43 @@ Run:
 uvicorn examples.notes_app:app --reload
 ```
 
+## Vibe Mode (No Routes)
+
+You can run Agnette in full "LLM-as-a-backend" mode with a single app-level prompt and no route decorators.
+
+Why define routes when you can just *describe your entire app in one sentence* and let the model figure out the rest? 🧘
+
+No paths. No methods. No schemas. The LLM is the router, the controller, the business logic, *and* the database layer. Your API is now a philosophy. ✨
+
+```python
+from agnette import Agnette, AgentOptions
+
+app = Agnette(
+    default_agent_options=AgentOptions(
+        model="claude-sonnet-4-5",
+        allowed_tools=["Bash", "Read", "Write", "Edit", "Glob", "Grep", "WebFetch"],
+    ),
+    prompt="You are the backend for a playful habit tracker app...",
+)
+```
+
+Run:
+
+```bash
+uvicorn examples.pure_vibe_app:app --reload
+```
+
+Try:
+
+```bash
+curl -sS -X POST http://127.0.0.1:8000/habits \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"drink water","target_per_day":8,"unit":"glasses"}'
+
+curl -sS http://127.0.0.1:8000/habits
+curl -sS http://127.0.0.1:8000/habits/habit-1
+```
+
 ## How It Works
 
 For each route request, Agnette:
@@ -129,6 +166,20 @@ Run:
 
 ```bash
 uvicorn examples.auth_app:app --reload
+```
+
+### Pure Vibe Habit Tracker (single prompt)
+
+`examples/pure_vibe_app.py` demonstrates full vibe mode:
+
+- no route definitions
+- one app-level prompt that handles all paths/methods
+- playful habit-tracker behavior with optional file-backed memory via tools
+
+Run:
+
+```bash
+uvicorn examples.pure_vibe_app:app --reload
 ```
 
 ## Cost Logging

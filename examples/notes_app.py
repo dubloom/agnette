@@ -8,18 +8,17 @@ Try:
   curl -sS http://127.0.0.1:8000/notes
   curl -sS http://127.0.0.1:8000/notes/note-1
 
-  curl -sS -X POST http://127.0.0.1:8000/notes \\
-    -H 'Content-Type: application/json' \\
+  curl -sS -X POST http://127.0.0.1:8000/notes \
+    -H 'Content-Type: application/json' \
     -d '{"new_note":{"title":"Hello","content":"World"}}'
 
-  curl -sS -X PATCH http://127.0.0.1:8000/notes/note-1 \\
-    -H 'Content-Type: application/json' \\
+  curl -sS -X PATCH http://127.0.0.1:8000/notes/note-1 \
+    -H 'Content-Type: application/json' \
     -d '{"updates":{"title":"Hi"}}'
 
   curl -sS -X DELETE http://127.0.0.1:8000/notes/note-1
 """
-from glyph import AgentOptions
-from agnette import Agnette
+from agnette import Agnette, AgentOptions
 
 app = Agnette(
     default_agent_options=AgentOptions(
