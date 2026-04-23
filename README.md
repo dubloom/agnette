@@ -6,25 +6,9 @@ The **FIRST** LLM-as-a-backend framework.
   <img src="images/agnette.png" alt="Agnette logo" width="400"/>
 </p>
 
-Who needs fast, deterministic and cheap backend when you can have agents?
+Who needs fast, deterministic and cheap backend when you can have agents? Why write boring, predictable code when you can replace your entire API with **AI AGENTS**? 🚀
 
-Why write boring, predictable code when you can replace your entire API with **vibes**? 🚀
-
-Tired of your endpoints responding in *microseconds*? 😴
-Sick of knowing **exactly** what your backend will do? 🥱
-Fed up with paying *pennies* for compute? 😤
-
-Agnette liberates you from the tyranny of determinism.
-
-✅ Your `/users` endpoint can now **hallucinate** creative new users
-
-✅ Your auth middleware can *philosophize* about whether someone deserves access
-
-✅ Your database queries become polite requests to an AI that may or may not feel like helping today
-
-Each request is a surprise(🎁), each response is an adventure (🌈), your API now costs more than your CEO's salary (💸)
-
-**This is the future.** 🔥
+Now, each request is a surprise(🎁), each response is an adventure (🌈), your API now costs more than your CEO's salary (💸). This is the **future.** 🔥
 
 (The package is powered by [`glyph-agents`] https://github.com/dubloom/glyph-agents, another lib I'm building).
 
