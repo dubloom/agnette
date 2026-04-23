@@ -2,6 +2,10 @@
 
 The **FIRST** LLM-as-a-backend framework.
 
+<p align="center">
+  <img src="images/agnette.png" alt="Agnette logo" width="400"/>
+</p>
+
 Who needs fast, deterministic and cheap backend when you can have agents?
 
 Why write boring, predictable code when you can replace your entire API with **vibes**? 🚀
