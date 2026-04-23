@@ -43,6 +43,6 @@ async def handle_request(request: Request, definition: AgentRouteDefinition) -> 
     cost = None
     try:
         response_text, cost = await AgentRunner.run(final_prompt, definition.agent_options)
-        return PlainTextResponse(response_text), cost
+        return Response(response_text, media_type=definition.response_content_type), cost
     except Exception as exc:
-        return PlainTextResponse(f"Agent execution failed: {exc}", status_code=500), cost
+        return Response(f"Agent execution failed: {exc}", status_code=500, media_type="text/plain"), cost

@@ -33,17 +33,6 @@ class Agnette:
 
         # if prompt is provided, no routes can be registered
         if prompt:
-            """ This is what a LLM has to say on this variable naming:
-              +------------------------------------------------------------------------------------------------------------------+
-              | + [N0] Unprofessional variable naming                                                                            |
-              | file: src/agnette/app.py                                                                                         |
-              |                                                                                                                  |
-              | Why: Line 36, 39, 189: The variable name '_vibiiiiiiiing' is playful but unprofessional for production code.     |
-              | While it fits the 'vibe mode' theme, it may harm code maintainability and professional perception.               |
-              |                                                                                                                  |
-              | Fix: Consider renaming to '_vibe_mode' or '_app_level_prompt_mode' for better clarity and professionalism        |
-              +------------------------------------------------------------------------------------------------------------------+
-            """
             self._vibiiiiiiiing = True
             self._register_vibe_route(prompt)
         else:
@@ -129,8 +118,9 @@ class Agnette:
         *,
         prompt: str,
         name: str | None = None,
+        response_content_type: str | None = None,
     ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        return self.route(path, prompt=prompt, methods=["GET"], name=name)
+        return self.route(path, prompt=prompt, methods=["GET"], name=name, response_content_type=response_content_type)
 
     def post(
         self,
@@ -138,8 +128,9 @@ class Agnette:
         *,
         prompt: str,
         name: str | None = None,
+        response_content_type: str | None = None,
     ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        return self.route(path, prompt=prompt, methods=["POST"], name=name)
+        return self.route(path, prompt=prompt, methods=["POST"], name=name, response_content_type=response_content_type)
 
     def delete(
         self,
@@ -147,8 +138,9 @@ class Agnette:
         *,
         prompt: str,
         name: str | None = None,
+        response_content_type: str | None = None,
     ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        return self.route(path, prompt=prompt, methods=["DELETE"], name=name)
+        return self.route(path, prompt=prompt, methods=["DELETE"], name=name, response_content_type=response_content_type)
 
     def put(
         self,
@@ -156,8 +148,9 @@ class Agnette:
         *,
         prompt: str,
         name: str | None = None,
+        response_content_type: str | None = None,
     ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        return self.route(path, prompt=prompt, methods=["PUT"], name=name)
+        return self.route(path, prompt=prompt, methods=["PUT"], name=name, response_content_type=response_content_type)
 
     def options(
         self,
@@ -165,8 +158,9 @@ class Agnette:
         *,
         prompt: str,
         name: str | None = None,
+        response_content_type: str | None = None,
     ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        return self.route(path, prompt=prompt, methods=["OPTIONS"], name=name)
+        return self.route(path, prompt=prompt, methods=["OPTIONS"], name=name, response_content_type=response_content_type)
 
     def patch(
         self,
@@ -174,8 +168,9 @@ class Agnette:
         *,
         prompt: str,
         name: str | None = None,
+        response_content_type: str | None = None,
     ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        return self.route(path, prompt=prompt, methods=["PATCH"], name=name)
+        return self.route(path, prompt=prompt, methods=["PATCH"], name=name, response_content_type=response_content_type)
 
     def head(
         self,
@@ -183,8 +178,9 @@ class Agnette:
         *,
         prompt: str,
         name: str | None = None,
+        response_content_type: str | None = None,
     ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        return self.route(path, prompt=prompt, methods=["HEAD"], name=name)
+        return self.route(path, prompt=prompt, methods=["HEAD"], name=name, response_content_type=response_content_type)
 
     def route(
         self,
@@ -194,9 +190,8 @@ class Agnette:
         methods: list[str] | tuple[str, ...] | None = None,
         agent_options: AgentOptions | None = None,
         name: str | None = None,
+        response_content_type: str | None = None,
     ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        # if a prompt is defined on the app, it means we should not define routes and just
-        # trust the vibes
         if self._vibiiiiiiiing:
             raise RuntimeError("You can't define routes on an app cool like this, sorry ;)")
 
@@ -216,6 +211,7 @@ class Agnette:
                 prompt=prompt,
                 agent_options=agent_options,
                 name=route_name,
+                response_content_type=response_content_type or "text/plain",
             )
             self._register_agent_route(route_definition)
             return func

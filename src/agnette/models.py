@@ -10,6 +10,7 @@ class AgentRouteDefinition:
     prompt: str
     agent_options: AgentOptions
     name: str
+    response_content_type: str = "text/plain"
 
 
 @dataclass(slots=True)
