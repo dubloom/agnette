@@ -28,6 +28,9 @@ Each request is a surprise(🎁), each response is an adventure (🌈), your API
 
 (The package is powered by [`glyph-agents`] https://github.com/dubloom/glyph-agents, another lib I'm building).
 
+#### ⚠️ External Contributors: Read This First
+
+**Before thinking about contributing, please read [`CONTRIBUTING.md`](CONTRIBUTING.md) first.**
 
 ## Runtime Support
 
